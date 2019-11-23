@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Jeu du pirate</title>
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <!-- Own CSS -->
+    <link rel="stylesheet" href="../css/style.css">
+    <!-- Jquery -->
+    <script
+  src="https://code.jquery.com/jquery-3.4.1.min.js"
+  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+  crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+    <script type="module" src="../js/index.js"></script>
+</head>
+
+
+
+<body>
+    <div class="container-fluid">
+        <div class="row text-center title">
+            <div class="col-sm4">
+                <img src="../imgs/characters/player1.png" alt="joueur 1" class="title--character-img">
+            </div>
+            <div class="col-sm4">
+                Jeu du pirate
+            </div>
+            <div class="col-sm4">
+                <img src="../imgs/characters/player2.png" alt="joueur 2" class="title--character-img">
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row text-center toolbox">
+            <div class="col-sm-5 toolbox--one">
+                <div class="row text-center">
+                    <div class="col-sm-12 toolbox--one__title">
+                        INFOS JOUEUR 1
+                    </div>
+                </div>
+                <div class="row text-center toolbox--one__rowLife">
+                    <div class="col-sm-5 ">
+                        Vie du joueur 1 :
+                    </div>
+                    <div class="col-sm-2 text-center">
+                            <span id="life-p1"></span>
+                    </div>
+                    <div class="col-sm-5 toolbox--one__divLife">
+                        <span class="life-bar" id="life-bar-p1"></span>
+                    </div>
+                </div>
+                <div class="row text-center">
+                    <div class="col-sm-5 toolbox--one__rowWeapon">
+                        Arme du joueur 1 : 
+                    </div>
+                    <div class="col-sm-7 text-center">
+                            <span id="weapon-p1"></span>
+                    </div>
+                </div>
+
+            </div>
+            
+            <div class="col-sm-2"></div>  <!--the empty area -->
+            <!-- <div class="col-sm-5 toolbox--two">
+                Toolbar du joueur 2
+            </div> -->
+            <div class="col-sm-5 toolbox--one">
+                    <div class="row text-center">
+                        <div class="col-sm-12 toolbox--one__title">
+                            INFOS JOUEUR 2
+                        </div>
+                    </div>
+                    <div class="row text-center toolbox--one__rowLife">
+                        <div class="col-sm-5 ">
+                            Vie du joueur 2 :
+                        </div>
+                        <div class="col-sm-2 text-center">
+                            <span id="life-p2"></span>
+                        </div>
+                        <div class="col-sm-5 toolbox--one__divLife">
+                            <span class="life-bar" id="life-bar-p2"></span>
+                        </div>
+                    </div>
+                    <div class="row text-center">
+                        <div class="col-sm-5 toolbox--one__rowWeapon">
+                            Arme du joueur 2 : 
+                        </div>
+                        <div class="col-sm-7 text-center">
+                                <span id="weapon-p2"></span>
+                        </div>
+                    </div>
+    
+                </div>
+        </div>
+
+        <div class="play-grid">
+            <table>
+                <!-- Dynamic complection in JS -->
+            </table>
+        </div>
+    </div>
+
+    <div class="container-fluid footer">
+        <div class="row text-center title">
+            <div class="col-sm4">
+                <img src="../imgs/characters/player1.png" alt="un pirate" class="title--character-img">
+            </div>
+            <div class="col-sm4">
+                PROJET 6
+            </div>
+            <div class="col-sm4">
+                <img src="../imgs/characters/player2.png" alt="un pirate" class="title--character-img">
+            </div>
+        </div>
+    </div>
+</body>
+</html>
