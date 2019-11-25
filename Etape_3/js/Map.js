@@ -75,22 +75,27 @@ class Map {
         }
     }
 
-    //generating random walls(barrels) & avoiding conflicts
-    generateGreyBoxes() {
+    // generating random walls(barrels) & avoiding conflicts
+    generateWalls() {
         const tdElts = $("td");
+        // the number of the walls will be in this interval
         const min = 10;
         const max = 15;
-        const randomNumber = random(min, max); // number of greyed boxes
+        const randomNumber = random(min, max); // number of walls
 
         for (let i = 0; i < randomNumber; i++) {
+            // selecting a random <td> element
             let index = random(0, tdElts.length);
             let randomTdElt = tdElts[index];
 
-            //the cell is not free
+            //while the <td> element is not free
             while (this.getCellContent(randomTdElt.id) !== 0) {
+                //reassign a new <td>
                 index = random(0, tdElts.length);
                 randomTdElt = tdElts[index];
             }
+
+            // managing the cell for the wall
             $(randomTdElt).removeClass("free");
             $(randomTdElt).addClass("greyed");
         }
@@ -141,17 +146,13 @@ class Map {
 
     //creating players & avoiding conflicts
     createPlayers() {
+        // get and select the position of each players
         this.game.players.forEach(el => {
             let elPos = `${el.x}-${el.y}`;
             el.pos = elPos;
             let tdEltId = $(`#${el.pos}`);
-            //if players are next to them
-            let cellLeft = el.x - 1 + "-" + el.y;
-            let cellRight = el.x + 1 + "-" + el.y;
-            let cellUp = el.x + "-" + parseInt(el.y - 1);
-            let cellDown = el.x + "-" + parseInt(el.y + 1);
 
-            //while the pos is not free OR the pos is free but it's next to a player
+            // while the pos is not free OR the pos is free but it's next to a player
             while (
                 this.getCellContent(elPos) !== 0 ||
                 this.lookAround(elPos, 1) === 1
@@ -164,6 +165,8 @@ class Map {
                 el.pos = elPos;
                 tdEltId = $(`#${elPos}`);
             }
+
+            // managing the cell for player
             tdEltId.removeClass("free");
             tdEltId.addClass("player");
             tdEltId.attr("data-player", `player${el.number}`);
@@ -196,14 +199,17 @@ class Map {
 
     //Look "nbOfCells" further than the "pos"
     lookAround(pos, nbOfCells) {
+        //get the x and y of the pos
         const x = parseInt(pos.charAt(0));
         const y = parseInt(pos.charAt(pos.length - 1));
 
-        const xRight = x + nbOfCells;
-        const xLeft = x - nbOfCells;
+        // preparing the x and y around the "pos" by the "nbOfCells"
         const yUp = y - nbOfCells;
+        const xRight = x + nbOfCells;
         const yDown = y + nbOfCells;
+        const xLeft = x - nbOfCells;
 
+        // selecting the cells
         const cellUp = `${x}-${yUp}`;
         const cellRight = `${xRight}-${y}`;
         const cellDown = `${x}-${yDown}`;
@@ -224,12 +230,14 @@ class Map {
     displayMoves(player) {
         let x = player.x;
         let y = player.y;
-        let maxMoves = 3;
+        let maxMoves = 3; // define the max moves of the players
         let i;
 
+        // feature : he shall not pass though a wall =>
+        // looking for each cell if it's not a wall or a player
         for (i = 1; i <= maxMoves; i++) {
             let positionUp = x + "-" + (y - i);
-            //Si c'est un joueur ou un mur
+            
             if (
                 this.getCellContent(positionUp) === 1 ||
                 this.getCellContent(positionUp) === 3
@@ -243,7 +251,6 @@ class Map {
         for (i = 1; i <= maxMoves; i++) {
             let positionRight = x + i + "-" + y;
 
-            //Si c'est un joueur ou un mur
             if (
                 this.getCellContent(positionRight) === 1 ||
                 this.getCellContent(positionRight) === 3
@@ -257,7 +264,6 @@ class Map {
         for (i = 1; i <= maxMoves; i++) {
             let positionDown = x + "-" + (y + i);
 
-            //Si c'est un joueur ou un mur
             if (
                 this.getCellContent(positionDown) === 1 ||
                 this.getCellContent(positionDown) === 3
@@ -271,7 +277,6 @@ class Map {
         for (i = 1; i <= maxMoves; i++) {
             let positionLeft = x - i + "-" + y;
 
-            //Si c'est un joueur ou un mur
             if (
                 this.getCellContent(positionLeft) === 1 ||
                 this.getCellContent(positionLeft) === 3
