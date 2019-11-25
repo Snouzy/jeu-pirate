@@ -11,7 +11,7 @@ class Game {
     
     //generate map, grid, walls, weapons, players, etc.
     initGame() {
-        this.map = new Map(10, 10, this);//comme ca on a qu'une instance de Game (mémoire, propriétés qu'on veut recup...)
+        this.map = new Map(10, 10, 10, this);//comme ca on a qu'une instance de Game (mémoire, propriétés qu'on veut recup...)
         this.players = [
             new Player(1, 10, random(0, this.map.nbOfLines), random(0, this.map.nbOfColumns),"../imgs/characters/player1.png", this, this.map, "default", 100, false),
             new Player(2, 10, random(0, this.map.nbOfLines), random(0, this.map.nbOfColumns),"../imgs/characters/player2.png", this, this.map, "default", 100, false)

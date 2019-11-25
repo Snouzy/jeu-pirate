@@ -1,9 +1,10 @@
 import { Weapon } from './Weapons.js';
 
 class Map {
-    constructor(nbOfLines, nbOfColumns, game) {
+    constructor(nbOfLines, nbOfColumns, nbOfWeapons, game) {
         this.nbOfLines = nbOfLines;
         this.nbOfColumns = nbOfColumns;
+        this.nbOfWeapons = nbOfWeapons;
         this.game = game;
         this.weapons = {
             "gun" : new Weapon("gun", 50, random(0, this.nbOfLines), random(0, this.nbOfColumns), "pistolet"),
@@ -81,26 +82,31 @@ class Map {
         //remove the default weapon (no need to be displayed on the map)
         arrayWeapons.pop();
 
-        //display the weapons on the map
-        arrayWeapons.forEach(el => {
-            let elPos = `${el.x}-${el.y}`;
-            //add attribute
-            el.pos = elPos;
-            let tdEltId = $(`#${el.pos}`);
-            
-            //if don't work bcs it watch only 1 time and then pass though the verification
-            while(this.getCellContent(elPos) !== 0) {
-                let newXpos = random(0,10);
-                let newYpos = random(0,10);
-                el.x = newXpos;
-                el.y = newYpos;
-                elPos = newXpos+"-"+newYpos;
-                el.pos = elPos;
-                tdEltId = $(`#${elPos}`);
-            }
-                tdEltId.addClass(`weapon ${el.name}`);
-                tdEltId.attr("data-weapon", el.name);
-        })
+        let randomIndexWeapon;
+        let randomWeapon;
+        for(let i =0; i < this.nbOfWeapons; i++) {
+            randomIndexWeapon = random(0, arrayWeapons.length);
+            randomWeapon = arrayWeapons[randomIndexWeapon];
+
+                let elPos = `${randomWeapon.x}-${randomWeapon.y}`;
+                //add attribute
+                randomWeapon.pos = elPos;
+                //select the id
+                let tdEltId = $(`#${randomWeapon.pos}`);
+                
+                //"if" don't work bcs it watch only 1 time and then pass though the verification
+                while(this.getCellContent(elPos) !== 0) {
+                    let newXpos = random(0,10); //10 = the maximum x(width) grid
+                    let newYpos = random(0,10); //10 = the maximum y(height) grid
+                    randomWeapon.x = newXpos;
+                    randomWeapon.y = newYpos;
+                    elPos = newXpos+"-"+newYpos;
+                    randomWeapon.pos = elPos;
+                    tdEltId = $(`#${elPos}`);
+                }
+                tdEltId.addClass(`weapon ${randomWeapon.name}`);
+                tdEltId.attr("data-weapon", randomWeapon.name);
+        }
     }
 
     //creating players & avoiding conflicts
@@ -185,7 +191,6 @@ class Map {
 
     //Show the possibles moves
     displayMoves(player) {
-        console.log(this.game.tour);
         let x = player.x;
         let y = player.y
         let maxMoves = 3;
