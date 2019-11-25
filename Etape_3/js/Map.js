@@ -81,10 +81,10 @@ class Map {
 
         //remove the last (=default weapon) bcs it dont't need to be displayed on the map
         arrayWeapons.pop();
-        
+
         for(let i = 0; i < this.nbOfWeapons; i++) {
-            let randomIndexWeapon = random(0, arrayWeapons.length);
-            let randomWeapon = arrayWeapons[randomIndexWeapon];
+            const randomIndexWeapon = random(0, arrayWeapons.length);
+            const randomWeapon = arrayWeapons[randomIndexWeapon];
 
                 let elPos = `${randomWeapon.x}-${randomWeapon.y}`;
                 //add attribute
