@@ -36,7 +36,7 @@ class Map {
             default: new Weapon("default", 10, null, null, "coup de poing")
         };
     }
-    
+
     // create the structure of the map (<tr> + <td> elements)
     createGrid() {
         let indexOfTheLine = 0;
@@ -235,7 +235,8 @@ class Map {
             let positionUp = x + "-" + (y - i);
 
             //Si c'est un joueur ou un mur
-            if (this.getCellContent(positionUp) === 1 || this.getCellContent(positionUp) === 3) {
+            if (this.getCellContent(positionUp) === 1 
+            || this.getCellContent(positionUp) === 3) {
                 break
             } else {
                 $(`#${positionUp}`).addClass("green");

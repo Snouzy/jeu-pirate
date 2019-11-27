@@ -47,8 +47,7 @@ class Game {
 
             if($(e.currentTarget).hasClass("weapon")) {
                 let oldWeapon = user.weaponName;
-
-                if(user.weaponName === "hands") {
+                if(user.weaponName === "default") {
                     user.weaponName = $(e.currentTarget).attr("data-weapon");
                     $(e.currentTarget).removeClass($(e.currentTarget).attr("data-weapon"));
                     $(e.currentTarget).removeClass("weapon");
