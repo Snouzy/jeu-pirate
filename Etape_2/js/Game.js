@@ -18,7 +18,6 @@ class Game {
         this.map.generateWeapons();
         this.map.createPlayers();
         this.map.displayMoves(this.players[0]);
-        this.players[0].addWeapon();
         this.movePlayers();
         this.map.lookAround("7-3");
     }
