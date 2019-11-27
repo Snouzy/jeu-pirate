@@ -8,13 +8,13 @@ class Game {
     }
 
     initGame() {
-        this.map = new Map(10, 10, this);//comme ca on a qu'une instance de Game (mémoire, propriétés qu'on veut recup...)
+        this.map = new Map(10, 10, 10, this);//comme ca on a qu'une instance de Game (mémoire, propriétés qu'on veut recup...)
         this.players = [
             new Player(1, 10, random(0, this.map.nbOfLines), random(0, this.map.nbOfColumns),"../imgs/characters/player1.png", this, "hands"),
             new Player(2, 10, random(0, this.map.nbOfLines), random(0, this.map.nbOfColumns),"../imgs/characters/player2.png", this, "hands")
         ];
         this.map.createGrid();
-        this.map.generateGreyBoxes();
+        this.map.generateWalls();
         this.map.generateWeapons();
         this.map.createPlayers();
         this.map.displayMoves(this.players[0]);
