@@ -1,5 +1,3 @@
-import { Weapon }  from './Weapons.js';
-import { Player } from './Player.js';
 import { Map } from './Map.js';
 
 
@@ -9,5 +7,5 @@ window.random = function(min, max) {
 }
 
 $(document).ready(function() {
-    new Map(10,10).init();
+    new Map(10, 10, 4).init();
 });

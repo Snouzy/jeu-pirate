@@ -2,16 +2,37 @@ import { Weapon } from './Weapons.js';
 import { Player } from './Player.js';
 
 class Map {
-    constructor(nbOfLines, nbOfColumns) {
+    constructor(nbOfLines, nbOfColumns, nbOfWeapons) {
         this.nbOfLines = nbOfLines;
         this.nbOfColumns = nbOfColumns;
-
-        this.weapons = [
-            new Weapon("gun", 50, random(0, this.nbOfLines), random(0, this.nbOfColumns), "../imgs/guns/gun.png"),
-            new Weapon("harpoon", 50, random(0, this.nbOfLines), random(0, this.nbOfColumns), "../imgs/guns/harpoon.png"),
-            new Weapon("knife", 50, random(0, this.nbOfLines), random(0, this.nbOfColumns), "../imgs/guns/knife.png"),
-            new Weapon("sword", 50, random(0, this.nbOfLines), random(0, this.nbOfColumns), "../imgs/guns/sword.png")
-        ];
+        this.nbOfWeapons = nbOfWeapons;
+        this.weapons = {
+            gun: new Weapon(
+                "gun",
+                50,
+                random(0, this.nbOfLines),
+                random(0, this.nbOfColumns),
+            ),
+            harpoon: new Weapon(
+                "harpoon",
+                20,
+                random(0, this.nbOfLines),
+                random(0, this.nbOfColumns),
+            ),
+            knife: new Weapon(
+                "knife",
+                30,
+                random(0, this.nbOfLines),
+                random(0, this.nbOfColumns),
+            ),
+            sword: new Weapon(
+                "sword",
+                40,
+                random(0, this.nbOfLines),
+                random(0, this.nbOfColumns),
+            ),
+            default: new Weapon("default", 10, null, null, "coup de poing")
+        };
         this.players = [
             new Player(1, 10, random(0, this.nbOfLines), random(0, this.nbOfColumns),"../imgs/characters/player1.png"),
             new Player(2, 10, random(0, this.nbOfLines), random(0, this.nbOfColumns),"../imgs/characters/player2.png")
@@ -36,7 +57,7 @@ class Map {
         for (i=0; i < numberOfBoxes; i++) {
             const tdElt = document.createElement('td');
             tdElt.id = `${x}-${y}`; //each td as a unique id -> his x/y position
-            tdElt.innerHTML = i; //just for info
+            // tdElt.innerHTML = i; //just for info
             $(`#line-${indexOfTheLine}`).append(tdElt);//pushing into the tr element
             x++;
             
@@ -49,7 +70,7 @@ class Map {
         }
     }
 
-    generateGreyBoxes() {
+    generateWalls() {
         const tdElts = $('td');
         const min = 10;
         const max = 15;
@@ -68,25 +89,74 @@ class Map {
     }
 
     generateWeapons() {
-        this.weapons.forEach(el => {
+        //to treat the object like an array
+        const arrayWeapons = [];
+        for (const element in this.weapons) {
+            arrayWeapons.push(this.weapons[element]);
+        }
+
+        // remove the last (=default weapon) bcs it dont't need to be displayed on the map
+        arrayWeapons.pop();
+
+        // loop 'till the nb of weapons is not achieved
+        for (let i = 0; i < this.nbOfWeapons; i++) {
+            // selecting a random weapon
+            const randomIndexWeapon = random(0, arrayWeapons.length);
+            const randomWeapon = arrayWeapons[randomIndexWeapon];
+
+            let elPos = `${randomWeapon.x}-${randomWeapon.y}`;
+            // adding attribute "pos"
+            randomWeapon.pos = elPos;
+            // selecting the cell id by the attribute "pos"
+            let tdEltId = $(`#${randomWeapon.pos}`);
+
+            //"if" statement won't work bcs it watch only 1 time and then pass though the verification
+            while (this.getCellContent(elPos) !== 0) {
+                //picking a new pos
+                let newXpos = random(0, 10); //10 = the maximum x(width) grid
+                let newYpos = random(0, 10); //10 = the maximum y(height) grid
+
+                //assignatate the new pos to the weapon
+                randomWeapon.x = newXpos;
+                randomWeapon.y = newYpos;
+                elPos = newXpos + "-" + newYpos;
+                randomWeapon.pos = elPos;
+
+                //selecting a new cell to the weapon
+                tdEltId = $(`#${elPos}`);
+            }
+            //giving class & attribute to the weapon's cell
+            tdEltId.addClass(`weapon ${randomWeapon.name}`).attr("data-weapon", randomWeapon.name);
+        }
+    }
+
+    createPlayers() {
+        // get and select the position of each players
+        this.players.forEach(el => {
             let elPos = `${el.x}-${el.y}`;
             el.pos = elPos;
             let tdEltId = $(`#${el.pos}`);
-            
-            while(this.getCellContent(elPos) !== 0) {
-                let newXpos = random(0,10);
-                let newYpos = random(0,10);
+
+            // while the pos is not free OR the pos is free but it's next to a player
+            while (
+                this.getCellContent(elPos) !== 0 ||
+                this.lookAround(elPos, 1) === 1
+            ) {
+                let newXpos = random(0, 10);
+                let newYpos = random(0, 10);
                 el.x = newXpos;
                 el.y = newYpos;
-                elPos = newXpos+"-"+newYpos;
+                elPos = newXpos + "-" + newYpos;
                 el.pos = elPos;
                 tdEltId = $(`#${elPos}`);
             }
-            tdEltId.addClass("weapon");
-            tdEltId.css("background", `url(${el.src})`);
-            tdEltId.css("background-size", `100% 100%`);
-            tdEltId.css("background-repeat", `no-repeat`);
-        })
+
+            // managing the cell for player
+            tdEltId.removeClass("free");
+            tdEltId.addClass("player");
+            tdEltId.attr("data-player", `player${el.number}`);
+            tdEltId.addClass(tdEltId.attr("data-player"));
+        });
     }
 
     getCellContent(pos) {
@@ -106,48 +176,40 @@ class Map {
         }
     }
 
-    createPlayers() {
-        this.players.forEach(el => {
-            let elPos = `${el.x}-${el.y}`;
-            el.pos = elPos;
-            let tdEltId = $(`#${el.pos}`);
-            //if players are next to them
-            let cellLeft = el.x - 1 + "-" + el.y;
-            let cellRight = el.x + 1 + "-" + el.y;
-            let cellUp = el.x + "-" + parseInt(el.y - 1) ;
-            let cellDown = el.x + "-" + parseInt(el.y + 1);
-            
+    // look "nbOfCells" further than the "pos"
+    lookAround(pos, nbOfCells) {
+        //get the x and y of the pos
+        const x = parseInt(pos.charAt(0));
+        const y = parseInt(pos.charAt(pos.length - 1));
 
-            //while it's a wall, a weapon or another player next to the pos, we change the position of the element
-            while(this.getCellContent(elPos) !== 0 || this.getCellContent(cellLeft) === 3 || this.getCellContent(cellRight) === 3  || this.getCellContent(cellUp) === 3  || this.getCellContent(cellDown) === 3 ) {
+        // preparing the x and y around the "pos" by the "nbOfCells"
+        const yUp = y - nbOfCells;
+        const xRight = x + nbOfCells;
+        const yDown = y + nbOfCells;
+        const xLeft = x - nbOfCells;
 
-                console.log("No place for the player " + el.number);
-                console.log("His position was " + el.pos);
+        // selecting the cells
+        const cellUp = `${x}-${yUp}`;
+        const cellRight = `${xRight}-${y}`;
+        const cellDown = `${x}-${yDown}`;
+        const cellLeft = `${xLeft}-${y}`;
 
-                let newXpos = random(0,10);
-                let newYpos = random(0,10);
-                el.x = newXpos;
-                el.y = newYpos;
-                elPos = newXpos+"-"+newYpos;
-                el.pos = elPos;
-                tdEltId = $(`#${elPos}`);
-                console.log("His new position is : " + el.pos);
-                
-            }
-            tdEltId.addClass("player");
-            tdEltId.css("background", `url(${el.src})`);
-            tdEltId.css("background-size", `100% 100%`);
-            tdEltId.css("background-repeat", `no-repeat`);
-        })
+        //if there is a player at the number of cells in paramaters compared to the pos in the parameter
+        if (
+            this.getCellContent(cellUp) === 3 ||
+            this.getCellContent(cellRight) === 3 ||
+            this.getCellContent(cellDown) === 3 ||
+            this.getCellContent(cellLeft) === 3
+        ) {
+            return 1;
+        }
     }
 
     init() {
         this.createGrid();
-        this.generateGreyBoxes();
-        this.generateWeapons();
-        console.log("----------------createPlayers----------------");
+        this.generateWalls();
         this.createPlayers();
-        console.log("----------------END CreatePlayers----------------")
+        this.generateWeapons();
     }
 }
 

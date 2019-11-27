@@ -56,6 +56,31 @@ td {
     text-align: center;
 }
 
-.greyed {
-    background-color: #aaa;
+/* guns & player displaying */
+.weapon, .player {
+    background-size: 100% 100%;
+    background-repeat : no-repeat;
+}
+.player1 {
+    background-image : url("../imgs/characters/player1.png") !important;
+}
+
+.player2 {
+    background-image : url("../imgs/characters/player2.png") !important;
+}
+
+.gun {
+    background-image : url("../imgs/guns/gun.png");
+}
+
+.harpoon {
+    background-image : url("../imgs/guns/harpoon.png");
+}
+
+.knife {
+    background-image : url("../imgs/guns/knife.png");
+}
+
+.sword {
+    background-image : url("../imgs/guns/sword.png");
 }
