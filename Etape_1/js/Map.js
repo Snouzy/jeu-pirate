@@ -71,20 +71,27 @@ class Map {
     }
 
     generateWalls() {
-        const tdElts = $('td');
+        const tdElts = $("td");
+        // the number of the walls will be in this interval
         const min = 10;
         const max = 15;
-        const randomNumber = random(min,max);// number of greyed boxes
-        let randomTd = tdElts[Math.floor(Math.random() * tdElts.length)];
-        
-        let i;
-        for(i = 0; i < randomNumber; i++) {
-            
-            while(this.getCellContent(randomTd.id) !== 0) {
-                let newRandomTd = tdElts[Math.floor(Math.random() * tdElts.length)];
-                randomTd = newRandomTd;
+        const randomNumber = random(min, max); // number of walls
+
+        for (let i = 0; i < randomNumber; i++) {
+            // selecting a random <td> element
+            let index = random(0, tdElts.length);
+            let randomTdElt = tdElts[index];
+
+            //while the <td> element is not free
+            while (this.getCellContent(randomTdElt.id) !== 0) {
+                //reassign a new <td>
+                index = random(0, tdElts.length);
+                randomTdElt = tdElts[index];
             }
-            randomTd.className += "greyed";
+
+            // managing the cell for the wall
+            $(randomTdElt).removeClass("free");
+            $(randomTdElt).addClass("greyed");
         }
     }
 
@@ -113,8 +120,8 @@ class Map {
             //"if" statement won't work bcs it watch only 1 time and then pass though the verification
             while (this.getCellContent(elPos) !== 0) {
                 //picking a new pos
-                let newXpos = random(0, 10); //10 = the maximum x(width) grid
-                let newYpos = random(0, 10); //10 = the maximum y(height) grid
+                let newXpos = random(0, this.nbOfLines); // the maximum x(width) grid
+                let newYpos = random(0, this.nbOfColumns); // the maximum y(height) grid
 
                 //assignatate the new pos to the weapon
                 randomWeapon.x = newXpos;

@@ -127,8 +127,8 @@ class Map {
             //"if" statement won't work bcs it watch only 1 time and then pass though the verification
             while (this.getCellContent(elPos) !== 0) {
                 //picking a new pos
-                let newXpos = random(0, 10); //10 = the maximum x(width) grid
-                let newYpos = random(0, 10); //10 = the maximum y(height) grid
+                let newXpos = random(0, this.nbOfLines); //10 = the maximum x(width) grid
+                let newYpos = random(0, this.nbOfColumns); //10 = the maximum y(height) grid
 
                 //assignatate the new pos to the weapon
                 randomWeapon.x = newXpos;
