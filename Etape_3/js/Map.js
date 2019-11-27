@@ -67,7 +67,7 @@ class Map {
             x++;
 
             //if there are 10 colmuns
-            if ($(`#line-${indexOfTheLine}`).children().length === 10) {
+            if ($(`#line-${indexOfTheLine}`).children().length === this.nbOfLines) {
                 indexOfTheLine++; //go to the next line
                 x = 0; //for the X position of the cell
                 y++; //for the Y position of the cell
