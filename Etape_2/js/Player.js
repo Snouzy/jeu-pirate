@@ -10,14 +10,6 @@ class Player {
         this.weaponName = weaponName;
     }
 
-    addWeapon() {
-        
-    }
-
-    removeWeapon() {
-        
-    }
-
     updatePlayerPosition(player, newPos) { //7-1
         let x = parseInt(newPos.charAt(0));
         let y = parseInt(newPos.charAt(newPos.length - 1));
