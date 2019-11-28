@@ -212,6 +212,7 @@ class Map {
         const cellLeft = `${xLeft}-${y}`;
 
         //if there is a player at the number of cells in paramaters compared to the pos in the parameter
+        //test review code
         if (
             this.getCellContent(cellUp) === 3 ||
             this.getCellContent(cellRight) === 3 ||
