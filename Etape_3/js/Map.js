@@ -149,8 +149,7 @@ class Map {
         // get and select the position of each players
         this.game.players.forEach(el => {
             let elPos = `${el.x}-${el.y}`;
-            el.pos = elPos;
-            let tdEltId = $(`#${el.pos}`);
+            let tdEltId = $(`#${elPos}`);
 
             // while the pos is not free OR the pos is free but it's next to a player
             while (
@@ -162,7 +161,6 @@ class Map {
                 el.x = newXpos;
                 el.y = newYpos;
                 elPos = newXpos + "-" + newYpos;
-                el.pos = elPos;
                 tdEltId = $(`#${elPos}`);
             }
 
@@ -184,9 +182,6 @@ class Map {
             return 2;
         } else if ($(posTd).hasClass("player")) {
             return 3;
-        } else if (pos.match(/-/g).length !== 1) {
-            //if there are 2 " - " in the pos : the pos is out of the map
-            return 4;
         } else {
             return 0;
         }
@@ -224,67 +219,56 @@ class Map {
         ) {
             return 1;
         }
+        if (
+            this.getCellContent(cellUp) === 1 ||
+            this.getCellContent(cellRight) === 1 ||
+            this.getCellContent(cellDown) === 1 ||
+            this.getCellContent(cellLeft) === 1
+        ) {
+            return 2;
+        }
     }
 
     //Show the possibles moves
     displayMoves(player) {
-        let x = player.x;
-        let y = player.y;
-        let maxMoves = 3; // define the max moves of the players
-        let i;
-
-        // feature : he shall not pass though a wall =>
-        // looking for each cell if it's not a wall or a player
-        for (i = 1; i <= maxMoves; i++) {
-            let positionUp = x + "-" + (y - i);
-            
-            if (
-                this.getCellContent(positionUp) === 1 ||
-                this.getCellContent(positionUp) === 3
-            ) {
-                break;
-            } else {
-                $(`#${positionUp}`).addClass("green");
-            }
+        const x = player.x;
+        const y = player.y;
+        const maxMoves = 3; // define the max moves of the players
+        let posArray = {
+            "posArrayUp": [],
+            "posArrayRight": [],
+            "posArrayBottom": [],
+            "posArrayLeft": []
         }
 
-        for (i = 1; i <= maxMoves; i++) {
-            let positionRight = x + i + "-" + y;
-
-            if (
-                this.getCellContent(positionRight) === 1 ||
-                this.getCellContent(positionRight) === 3
-            ) {
-                break;
-            } else {
-                $(`#${positionRight}`).addClass("green");
-            }
+        // pushing each position of the cells by line into the posArray object 
+        for (let j = 1; j <= maxMoves; j++) {
+            const positionUp = x + "-" + (y - j);
+            const positionRight = x + j + "-" + y;
+            const positionDown = x + "-" + (y + j);
+            const positionLeft = x - j + "-" + y;
+            posArray.posArrayUp.push(positionUp);
+            posArray.posArrayRight.push(positionRight);
+            posArray.posArrayBottom.push(positionDown);
+            posArray.posArrayLeft.push(positionLeft);
         }
+        
+        // displaying the possibilites
+        let posArrayKeys = Object.keys(posArray);
+        for (let i = 0; i < posArrayKeys.length; i++) {
+            const actualKey = posArrayKeys[i];
+            posArray[actualKey].forEach(el => {
+                //if it's not a wall or a player
+                if (this.getCellContent(el) !== 1 && this.getCellContent(el) !== 3) {
+                    $('#' + el).addClass('green');
+                } else {
+                    // get index of the obstacle 
+                    const obstacleIndex = posArray[actualKey].indexOf(el);
+                    //reduce the table of possibilites for this line, so we pass to the next direction. (=> avoiding to cross the obstacle)
+                    posArray[actualKey].splice(obstacleIndex, posArrayKeys.length - 1);
+                }
+            })
 
-        for (i = 1; i <= maxMoves; i++) {
-            let positionDown = x + "-" + (y + i);
-
-            if (
-                this.getCellContent(positionDown) === 1 ||
-                this.getCellContent(positionDown) === 3
-            ) {
-                break;
-            } else {
-                $(`#${positionDown}`).addClass("green");
-            }
-        }
-
-        for (i = 1; i <= maxMoves; i++) {
-            let positionLeft = x - i + "-" + y;
-
-            if (
-                this.getCellContent(positionLeft) === 1 ||
-                this.getCellContent(positionLeft) === 3
-            ) {
-                break;
-            } else {
-                $(`#${positionLeft}`).addClass("green");
-            }
         }
     }
 }

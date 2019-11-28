@@ -15,8 +15,8 @@ class Player {
 
     //when a player moved
     updatePlayerPosition(player, newPos) { //7-1
-        let x = parseInt(newPos.charAt(0));
-        let y = parseInt(newPos.charAt(newPos.length - 1));
+        const x = parseInt(newPos.charAt(0));
+        const y = parseInt(newPos.charAt(newPos.length - 1));
         player.x = x;
         player.y = y;
     }
@@ -51,21 +51,15 @@ class Player {
                 player2.life -= this.damages;
             }
         }
-        //updating lifebar color
+        //updating lifebar (color, number and animation)
         this.game.players.forEach( player => {
             const playerLifeBar = `#life-bar-p${player.number}`;
             player.life <= 75 ? $(playerLifeBar).addClass("yellow") : "";
             player.life <= 50 ? $(playerLifeBar).addClass("orange") : "";
             player.life <= 25 ? $(playerLifeBar).addClass("red") : "";
+            $(playerLifeBar).css("width", this.game.players[player.number - 1].life + "%");
+            $(`#life-p${player.number}`).html(this.game.players[player.number - 1].life);
         })
-
-        //updating lifebar "width" according to player life
-        $("#life-bar-p1").css("width",`${this.game.players[0].life}%`);
-        $("#life-bar-p2").css("width",`${this.game.players[1].life}%`);
-
-        //updating life bar number
-        $("#life-p1").html(this.game.players[0].life);
-        $("#life-p2").html(this.game.players[1].life);
     }
     
     
