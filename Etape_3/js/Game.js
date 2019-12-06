@@ -52,14 +52,13 @@ class Game {
             let idOftheWantedPosition = $(e.currentTarget)[0].id;
 
             //the old position
-            $(`#${oldPosition}`).removeAttr("data-player");
-            $(`#${oldPosition}`).removeClass("player");
-            $(`#${oldPosition}`).removeClass(`player${this.user.number}`)
-            $(`#${oldPosition}`).addClass("free");
+            $(`#${oldPosition}`)
+            .removeAttr("data-player")
+            .removeClass(`player player${this.user.number}`)
+            .addClass("free");
 
             //the new cell
-            $(e.currentTarget).addClass("player");
-            $(e.currentTarget).addClass(`player${this.user.number}`);
+            $(e.currentTarget).addClass(`player player${this.user.number}`);
 
             //update x and y of the current player 
             this.user.updatePlayerPosition(this.user, idOftheWantedPosition);
@@ -71,16 +70,16 @@ class Game {
                 //if it's the first weapon 
                 if (this.user.weaponName === "default") {
                     this.user.weaponName = $(e.currentTarget).attr("data-weapon");
-                    $(e.currentTarget).removeClass($(e.currentTarget).attr("data-weapon"));
-                    $(e.currentTarget).removeClass("weapon");
-                    $(e.currentTarget).removeAttr("data-weapon");
+                    $(e.currentTarget)
+                    .removeClass(`${$(e.currentTarget).attr("data-weapon")} weapon`)
+                    .removeAttr("data-weapon");
                 } else {
                     this.user.weaponName = $(e.currentTarget).attr("data-weapon");
-                    $(e.currentTarget).removeClass($(e.currentTarget).attr("data-weapon"));
-                    $(e.currentTarget).addClass(oldWeapon);
-                    $(e.currentTarget).attr("data-weapon", oldWeapon);
+                    $(e.currentTarget)
+                    .removeClass($(e.currentTarget).attr("data-weapon"))
+                    .addClass(oldWeapon)
+                    .attr("data-weapon", oldWeapon);
                 }
-
 
                 this.user.damages = this.map.weapons[this.user.weaponName].damages;
 

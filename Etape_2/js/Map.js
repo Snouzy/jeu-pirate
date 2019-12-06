@@ -147,7 +147,7 @@ class Map {
         this.game.players.forEach(el => {
             let elPos = `${el.x}-${el.y}`;
             el.pos = elPos;
-            let tdEltId = $(`#${el.pos}`);
+            let tdEltId = $(`#${elPos}`);
 
             // while the pos is not free OR the pos is free but it's next to a player
             while (
@@ -212,6 +212,7 @@ class Map {
         const cellLeft = `${xLeft}-${y}`;
 
         //if there is a player at the number of cells in paramaters compared to the pos in the parameter
+        //test review code
         if (
             this.getCellContent(cellUp) === 3 ||
             this.getCellContent(cellRight) === 3 ||
@@ -235,8 +236,8 @@ class Map {
             let positionUp = x + "-" + (y - i);
 
             //Si c'est un joueur ou un mur
-            if (this.getCellContent(positionUp) === 1 
-            || this.getCellContent(positionUp) === 3) {
+            if (this.getCellContent(positionUp) === 1 ||
+                this.getCellContent(positionUp) === 3) {
                 break
             } else {
                 $(`#${positionUp}`).addClass("green");
