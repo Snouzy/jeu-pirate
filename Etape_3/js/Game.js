@@ -54,8 +54,7 @@ class Game {
             //the old position
             $(`#${oldPosition}`)
             .removeAttr("data-player")
-            .removeClass("player")
-            .removeClass(`player${this.user.number}`)
+            .removeClass(`player player${this.user.number}`)
             .addClass("free");
 
             //the new cell
@@ -72,8 +71,7 @@ class Game {
                 if (this.user.weaponName === "default") {
                     this.user.weaponName = $(e.currentTarget).attr("data-weapon");
                     $(e.currentTarget)
-                    .removeClass($(e.currentTarget).attr("data-weapon"))
-                    .removeClass("weapon")
+                    .removeClass(`${$(e.currentTarget).attr("data-weapon")} weapon`)
                     .removeAttr("data-weapon");
                 } else {
                     this.user.weaponName = $(e.currentTarget).attr("data-weapon");

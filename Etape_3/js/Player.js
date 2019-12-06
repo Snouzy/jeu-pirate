@@ -1,9 +1,9 @@
 class Player {
     //ajouter life et weapon
-    constructor(number, damages, x, y, src, game, map, weaponName, life, isDefending){
+    constructor(number, damages, x, y, src, game, map, weaponName, life, isDefending) {
         this.number = number;
         this.damages = damages;
-        this.x = x ;
+        this.x = x;
         this.y = y;
         this.src = src;
         this.game = game;
@@ -32,9 +32,9 @@ class Player {
         const userWeaponNameInFrench = this.map.weapons[this.weaponName].nameFR;
         this.game.textToPrompt = `Votre attaque grâce à votre ${userWeaponNameInFrench} fait <b>${this.damages} de dégâts</b> sur l'adversaire`;
 
-        if(this.number === 2) { //P2
+        if (this.number === 2) { //P2
             const player1 = this.game.players[0];
-            if(player1.isDefending) {
+            if (player1.isDefending) {
                 player1.life -= (this.damages / 2);
                 player1.isDefending = !player1.isDefending;
                 this.game.textToPrompt = `Votre attaque grâce à votre ${userWeaponNameInFrench} fait <b>${this.damages/2} de dégâts</b> sur l'adversaire`;
@@ -43,7 +43,7 @@ class Player {
             }
         } else { //P1 
             const player2 = this.game.players[1];
-            if(player2.isDefending) {
+            if (player2.isDefending) {
                 player2.life -= (this.damages / 2);
                 player2.isDefending = !player2.isDefending;
                 this.game.textToPrompt = `Votre attaque grâce à votre ${userWeaponNameInFrench} fait <b>${this.damages/2} de dégâts</b> sur l'adversaire`;
@@ -52,7 +52,7 @@ class Player {
             }
         }
         //updating lifebar (color, number and animation)
-        this.game.players.forEach( player => {
+        this.game.players.forEach(player => {
             const playerLifeBar = `#life-bar-p${player.number}`;
             player.life <= 75 ? $(playerLifeBar).addClass("yellow") : "";
             player.life <= 50 ? $(playerLifeBar).addClass("orange") : "";
@@ -61,8 +61,10 @@ class Player {
             $(`#life-p${player.number}`).html(this.game.players[player.number - 1].life);
         })
     }
-    
-    
+
+
 }
 
-export { Player }
+export {
+    Player
+}
