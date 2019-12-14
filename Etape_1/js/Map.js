@@ -61,7 +61,7 @@ class Map {
             $(`#line-${indexOfTheLine}`).append(tdElt);//pushing into the tr element
             x++;
             
-            //if there are 10 colmuns
+            //pass to the next line
             if ($(`#line-${indexOfTheLine}`).children().length === this.nbOfLines) {
                 indexOfTheLine++; //go to the next line
                 x = 0; //for the X position of the cell
@@ -90,8 +90,8 @@ class Map {
             }
 
             // managing the cell for the wall
-            $(randomTdElt).removeClass("free");
-            $(randomTdElt).addClass("greyed");
+            $(randomTdElt).removeClass("free")
+            .addClass("greyed");
         }
     }
 
@@ -159,10 +159,9 @@ class Map {
             }
 
             // managing the cell for player
-            tdEltId.removeClass("free");
-            tdEltId.addClass("player");
-            tdEltId.attr("data-player", `player${el.number}`);
-            tdEltId.addClass(tdEltId.attr("data-player"));
+            tdEltId.removeClass("free")
+            .attr("data-player", `player${el.number}`)
+            .addClass(`player ${tdEltId.attr("data-player")}`);
         });
     }
 

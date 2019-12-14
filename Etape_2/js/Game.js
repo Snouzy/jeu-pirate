@@ -33,14 +33,12 @@ class Game {
             let oldPosition = this.map.getPlayerPosition(user); // x-y
             let idOftheWantedPosition = $(e.currentTarget)[0].id;
             //the old position
-            $(`#${oldPosition}`).removeAttr("data-player");
-            $(`#${oldPosition}`).removeClass("player");
-            $(`#${oldPosition}`).removeClass(`player${user.number}`)
-            $(`#${oldPosition}`).addClass("free");
+            $(`#${oldPosition}`).removeAttr("data-player")
+            .removeClass(`player${user.number} player`)
+            .addClass("free");
 
             //the new cell
-            $(e.currentTarget).addClass("player");
-            $(e.currentTarget).addClass(`player${user.number}`);
+            $(e.currentTarget).addClass(`player${user.number} player`);
             
             //update x and y of the current player
             user.updatePlayerPosition(user, idOftheWantedPosition);
@@ -49,14 +47,13 @@ class Game {
                 let oldWeapon = user.weaponName;
                 if(user.weaponName === "default") {
                     user.weaponName = $(e.currentTarget).attr("data-weapon");
-                    $(e.currentTarget).removeClass($(e.currentTarget).attr("data-weapon"));
-                    $(e.currentTarget).removeClass("weapon");
-                    $(e.currentTarget).removeAttr("data-weapon");
+                    $(e.currentTarget).removeClass(`${$(e.currentTarget).attr("data-weapon")} weapon`)
+                    .removeAttr("data-weapon");
                 } else {
                     user.weaponName = $(e.currentTarget).attr("data-weapon");
-                    $(e.currentTarget).removeClass($(e.currentTarget).attr("data-weapon"));
-                    $(e.currentTarget).addClass(oldWeapon);
-                    $(e.currentTarget).attr("data-weapon", oldWeapon);
+                    $(e.currentTarget).removeClass($(e.currentTarget).attr("data-weapon"))
+                    .addClass(oldWeapon)
+                    .attr("data-weapon", oldWeapon);
                 }
             }
 
@@ -66,17 +63,12 @@ class Game {
                 $(this).removeClass("green");
             });
 
-            console.log(user);
             //pass to the next player
             this.tour += 1;
             this.map.displayMoves(this.getCurrentPlayer());
 
         }.bind(this)); //bind cuz he cant read the method of the class Map
         
-    }
-
-    fight() {
-
     }
 }
 

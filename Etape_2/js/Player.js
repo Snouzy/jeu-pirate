@@ -11,12 +11,11 @@ class Player {
     }
 
     updatePlayerPosition(player, newPos) { //7-1
-        let x = parseInt(newPos.charAt(0));
-        let y = parseInt(newPos.charAt(newPos.length - 1));
+        const x = parseInt(newPos.charAt(0));
+        const y = parseInt(newPos.charAt(newPos.length - 1));
         player.x = x;
         player.y = y;
     }
-    
 }
 
 export { Player }
