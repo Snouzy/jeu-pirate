@@ -1,9 +1,7 @@
 import { Game } from "./Game.js";
 
 //generate a random number between min & max
-window.random = function(min, max) {
-    return Math.floor(Math.random() * (max - min)) + min;
-};
+window.random = (min, max) => Math.floor(Math.random() * (max - min)) + min;
 
 
 $(document).ready(function() {

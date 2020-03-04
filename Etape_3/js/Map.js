@@ -237,6 +237,7 @@ class Map {
       const x = player.x;
       const y = player.y;
       const maxMoves = 3; // define the max moves of the players
+      //all pos
       let posArray = {
          posArrayUp: [],
          posArrayRight: [],
@@ -258,9 +259,9 @@ class Map {
 
       // displaying the possibilites
       let posArrayKeys = Object.keys(posArray);
-      for (let i = 0; i < posArrayKeys.length; i++) {
+      for (let i = 0; i < posArrayKeys.length; i++) { //each line
          const actualKey = posArrayKeys[i];
-         posArray[actualKey].forEach(el => {
+         posArray[actualKey].forEach(el => { // in each tab
             // if it's free
             if (
                this.getCellContent(el) !== 1 &&
